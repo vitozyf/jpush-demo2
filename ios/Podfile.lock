@@ -1,0 +1,25 @@
+PODS:
+  - JPushRN (2.5.0):
+    - React
+  - React (0.11.0):
+    - React/Core (= 0.11.0)
+  - React/Core (0.11.0)
+
+DEPENDENCIES:
+  - JPushRN (from `../node_modules/jpush-react-native`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - React
+
+EXTERNAL SOURCES:
+  JPushRN:
+    :path: "../node_modules/jpush-react-native"
+
+SPEC CHECKSUMS:
+  JPushRN: bdaefc1f0442d90ef4035f47e29e4268ee6a11f2
+  React: ab1a2e21deb34965c38328d5ec40cc7d12c6050a
+
+PODFILE CHECKSUM: 47e59e443388f58a776071d93ca4c6bcd7382ddc
+
+COCOAPODS: 1.5.3
