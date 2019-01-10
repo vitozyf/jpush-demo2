@@ -17,13 +17,6 @@ import {
 
 import JPushModule from 'jpush-react-native'
 
-console.dir(JPushModule)
-console.log(JPushModule.initPush)
-
-// const receiveCustomMsgEvent = 'receivePushMsg'
-// const receiveNotificationEvent = 'receiveNotification'
-// const openNotificationEvent = 'openNotification'
-// const getRegistrationIdEvent = 'getRegistrationId'
 
 export default class App extends Component {
   constructor (props) {
@@ -31,7 +24,7 @@ export default class App extends Component {
 
     this.state = {
       bg: '#ffffff',
-      appkey: '8f1606f661df34e3ef6adbd8',
+      appkey: '',
       imei: 'IMEI',
       package: 'PackageName',
       deviceId: 'DeviceId',
@@ -58,7 +51,7 @@ export default class App extends Component {
     // JPushModule.jumpToPushActivityWithParams('SecondActivity', {
     //   hello: 'world'
     // })
-    this.props.navigation.navigate('Push')
+    // this.props.navigation.navigate('Push')
   }
 
   onInitPress () {
@@ -78,12 +71,13 @@ export default class App extends Component {
     JPushModule.resumePush()
     console.log('Resume push press')
   }
-
+  // 获取APP registrationId 设备的标识（同一个手机不同 App 的 Registration ID 是不同的）
   onGetRegistrationIdPress () {
     JPushModule.getRegistrationID(registrationId => {
       this.setState({
         registrationId: registrationId
       })
+      console.log('registrationId', registrationId)
     })
   }
 
@@ -161,7 +155,7 @@ export default class App extends Component {
       }
     })
   }
-
+  // 设置别名
   setAlias () {
     if (this.state.alias !== undefined) {
       JPushModule.setAlias(this.state.alias, map => {
@@ -184,7 +178,7 @@ export default class App extends Component {
       }
     })
   }
-
+  // 获取别名
   getAlias = () => {
     JPushModule.getAlias(map => {
       if (map.errorCode === 0) {
@@ -237,16 +231,20 @@ export default class App extends Component {
       this.setState({
         pushMsg: map.content
       })
-      console.log('extras: ' + map.extras)
+      console.log('1111 extras: ' + map.extras)
     }
-
     JPushModule.addReceiveCustomMsgListener(this.receiveCustomMsgListener)
+
+
+    // 收到通知事件监听
     this.receiveNotificationListener = map => {
-      console.log('alertContent: ' + map.alertContent)
-      console.log('extras: ' + map.extras)
+      console.log('alertContent: ' + map.alertContent) // 通知内容
+      console.log('extras: ' + map.extras) // 通知的附加字段
     }
     JPushModule.addReceiveNotificationListener(this.receiveNotificationListener)
 
+
+    // 点开通知事件监听
     this.openNotificationListener = map => {
       console.log('Opening notification!')
       console.log('map.extra: ' + map.extras)
@@ -265,7 +263,6 @@ export default class App extends Component {
     JPushModule.removeReceiveNotificationListener(this.receiveNotificationListener)
     JPushModule.removeReceiveOpenNotificationListener(this.openNotificationListener)
     JPushModule.removeGetRegistrationIdListener(this.getRegistrationIdListener)
-    console.log('Will clear all notifications')
     JPushModule.clearAllNotifications()
   }
 
